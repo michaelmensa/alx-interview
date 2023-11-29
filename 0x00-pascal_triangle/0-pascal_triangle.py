@@ -3,6 +3,7 @@
 Module - Pascal's triangle by Michael Mensah
 '''
 
+
 def pascal_triangle(n):
     '''
     prints pascal triangle
