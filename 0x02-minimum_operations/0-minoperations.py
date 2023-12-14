@@ -32,7 +32,6 @@ def minOperations(n):
             dp[i] = i
 
     return dp[n] if dp[n] != float('inf') else 0
-    '''
     operations = 0
     for _ in range(2, int(n**0.5) + 1):
         while n % _ == 0:
@@ -42,4 +41,13 @@ def minOperations(n):
     if n > 1:
         operations += n
 
+    return operations
+    '''
+    operations = 0
+    min_operations = 2
+    while n > 1:
+        while n % min_operations == 0:
+            operations += min_operations
+            n //= min_operations
+        min_operations += 1
     return operations
