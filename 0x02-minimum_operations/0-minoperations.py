@@ -18,7 +18,6 @@ def minOperations(n):
 
     Returns an integer.
     If n is impossible to achieve, return 0
-    '''
     if n == 1:
         return 0
 
@@ -33,3 +32,14 @@ def minOperations(n):
             dp[i] = i
 
     return dp[n] if dp[n] != float('inf') else 0
+    '''
+    operations = 0
+    for _ in range(2, int(n**0.5) + 1):
+        while n % _ == 0:
+            operations += _
+            n //= _
+
+    if n > 1:
+        operations += n
+
+    return operations
