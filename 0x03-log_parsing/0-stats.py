@@ -26,6 +26,7 @@ def print_metrics(file_sizes, status_codes):
         print(f'{value}: {count}')
 
 
+"""
 def main():
     ''' reads line by line in stdin and return a list '''
     file_sizes = []
@@ -43,7 +44,21 @@ def main():
     except KeyboardInterrupt:
         print_metrics(file_sizes, status_codes)
         raise
-
+"""
 
 if __name__ == "__main__":
-    main()
+    file_sizes = []
+    status_codes = []
+    count = 0
+
+    try:
+        for line in sys.stdin:
+            count += 1
+            process_line(line, file_sizes, status_codes)
+
+            if count % 10 == 0:
+                print_metrics(file_sizes, status_codes)
+
+    except KeyboardInterrupt:
+        print_metrics(file_sizes, status_codes)
+        raise
