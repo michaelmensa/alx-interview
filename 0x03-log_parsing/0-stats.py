@@ -50,7 +50,7 @@ if __name__ == "__main__":
     file_sizes = []
     status_codes = []
     count = 0
-
+    
     try:
         for line in sys.stdin:
             count += 1
@@ -59,6 +59,6 @@ if __name__ == "__main__":
             if count % 10 == 0:
                 print_metrics(file_sizes, status_codes)
     except KeyboardInterrupt:
-        raise
-    finally:
         print_metrics(file_sizes, status_codes)
+    finally:
+        raise KeyboardInterrupt
