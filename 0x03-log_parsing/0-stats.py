@@ -50,7 +50,7 @@ if __name__ == "__main__":
     file_sizes = []
     status_codes = []
     count = 0
-    
+
     try:
         for line in sys.stdin:
             count += 1
