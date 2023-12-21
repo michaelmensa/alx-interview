@@ -3,40 +3,41 @@
 Module Log parsing: script that reads stdin line by line and computes metrics:
 '''
 import sys
-from collections import Counter
 
 
 if __name__ == "__main__":
-    file_sizes = []
-    status_codes = []
+    file_sizes = [0]
+    status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0,
+                    404: 0, 405: 0, 500: 0}
     count = 0
 
-    def process_line(line, file_sizes, status_codes):
-        ''' function to process lines from stdin '''
-        strip_line = line.strip()
-        parsed_line = strip_line.split(' ')
-
-        file_sizes.append(int(parsed_line[-1]))
-        status_codes.append(int(parsed_line[-2]))
-
-    def print_metrics(file_sizes, status_codes):
+    def print_metrics():
         ''' prints metrics to the terminal '''
-        if file_sizes:
-            total_size = sum(file_sizes)
-            print(f'File_size: {total_size}')
+        print(f'File_size: {file_sizes[0]}')
 
-        occ = Counter(status_codes)
-        for value, count in sorted(occ.items()):
-            print(f'{value}: {count}')
+        for key in sorted(status_codes.keys()):
+            if status_codes[key]:
+                print(f'{key}: {status_codes[key]}')
 
     try:
         for line in sys.stdin:
             count += 1
-            process_line(line, file_sizes, status_codes)
+
+            parsed_line = line.split(' ')
+
+            try:
+                file_size = int(parsed_line[-1])
+                status_code = int(parsed_line[-2])
+            except Exception:
+                pass
+
+            file_sizes[0] += file_size
+            if status_code in status_codes:
+                status_codes[status_code] += 1
 
             if count % 10 == 0:
-                print_metrics(file_sizes, status_codes)
-        print_metrics(file_sizes, status_codes)
+                print_metrics()
+        print_metrics()
     except KeyboardInterrupt:
-        print_metrics(file_sizes, status_codes)
+        print_metrics()
         raise
