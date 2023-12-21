@@ -30,16 +30,19 @@ def main():
     ''' reads line by line in stdin and return a list '''
     file_sizes = []
     status_codes = []
+    count = 0
 
     try:
-        for i, line in enumerate(sys.stdin, start=1):
+        for line in sys.stdin:
+            count += 1
             process_line(line, file_sizes, status_codes)
 
-            if i % 10 == 0:
+            if count % 10 == 0:
                 print_metrics(file_sizes, status_codes)
 
     except KeyboardInterrupt:
         print_metrics(file_sizes, status_codes)
+        raise
 
 
 if __name__ == "__main__":
