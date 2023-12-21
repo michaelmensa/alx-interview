@@ -1,43 +1,52 @@
 #!/usr/bin/python3
 '''
-Module Log parsing: script that reads stdin line by line and computes metrics:
+Module Log Parsing: script that reads stdin line by line and computes metrics
 '''
 import sys
+from collections import Counter
 
 
-if __name__ == "__main__":
-    file_sizes = [0]
-    status_codes = {200: 0, 301: 0, 400: 0, 401: 0, 403: 0,
-                    404: 0, 405: 0, 500: 0}
+if __name__ == '__main__':
+    # name the file sizes as list and status code as dict
+    file_sizes = []
+    status_codes = []
     count = 0
 
-    def print_metrics():
-        ''' prints metrics to the terminal '''
-        print(f'File_size: {file_sizes[0]}')
+    def processline(line, file_sizes, status_codes):
+        ''' function to process line to retrieve data '''
+        strip_line = line.strip()
+        parsed_line = strip_line.split(' ')
+        file_size = int(parsed_line[-1])
+        status_code = int(parsed_line[-2])
 
-        for key in sorted(status_codes.keys()):
-            if status_codes[key]:
-                print(f'{key}: {status_codes[key]}')
+        # append file_size to file_sizes
+        file_sizes.append(file_size)
+
+        # append status_code to status_codes
+        status_codes.append(status_code)
+
+    def print_metrics(file_sizes, status_codes):
+        ''' function to calculate metrics and print them'''
+        print(f'File size: {sum(file_sizes)}')
+
+        occ = Counter(status_codes)
+        for key, value in sorted(occ.items()):
+            if value > 0:
+                print(f'{key}: {value}')
 
     try:
         for line in sys.stdin:
             count += 1
+            # process line fn
+            processline(line, file_sizes, status_codes)
 
-            parsed_line = line.split(' ')
-
+            # try computing metrics
             try:
-                file_size = int(parsed_line[-1])
-                status_code = int(parsed_line[-2])
-            except Exception:
-                pass
-
-            file_sizes[0] += file_size
-            if status_code in status_codes:
-                status_codes[status_code] += 1
-
-            if count % 10 == 0:
-                print_metrics()
-        print_metrics()
-    except KeyboardInterrupt:
-        print_metrics()
-        raise
+                if count % 10 == 0:
+                    # print metrics fn
+                    print_metrics(file_sizes, status_codes)
+            except KeyboardInterrupt:
+                # print metrics fn
+                print_metrics(file_sizes, status_codes)
+    finally:
+        print_metrics(file_sizes, status_codes)
