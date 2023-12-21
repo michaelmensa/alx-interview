@@ -19,7 +19,6 @@ if __name__ == "__main__":
         file_sizes.append(int(parsed_line[-1]))
         status_codes.append(int(parsed_line[-2]))
 
-
     def print_metrics(file_sizes, status_codes):
         ''' prints metrics to the terminal '''
         if file_sizes:
@@ -30,7 +29,6 @@ if __name__ == "__main__":
         for value, count in sorted(occ.items()):
             print(f'{value}: {count}')
 
-
     try:
         for line in sys.stdin:
             count += 1
@@ -38,9 +36,7 @@ if __name__ == "__main__":
 
             if count % 10 == 0:
                 print_metrics(file_sizes, status_codes)
-    finally:
-        try:
-            print_metrics(file_sizes, status_codes)
-            raise KeyboardInterrupt
-        except:
-            pass
+        print_metrics(file_sizes, status_codes)
+    except KeyboardInterrupt:
+        print_metrics(file_sizes, status_codes)
+        raise
