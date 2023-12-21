@@ -16,7 +16,7 @@ def process_line(line, file_sizes, status_codes):
 
 
 def print_metrics(file_sizes, status_codes):
-    ''' prints metrics to the terminal ''' 
+    ''' prints metrics to the terminal '''
     if file_sizes:
         total_size = sum(file_sizes)
         print(f'File_size: {total_size}')
@@ -40,6 +40,7 @@ def main():
 
     except KeyboardInterrupt:
         print_metrics(file_sizes, status_codes)
+
 
 if __name__ == "__main__":
     main()
