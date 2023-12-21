@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
             if count % 10 == 0:
                 print_metrics(file_sizes, status_codes)
-
     except KeyboardInterrupt:
-        print_metrics(file_sizes, status_codes)
         raise
+    finally:
+        print_metrics(file_sizes, status_codes)
