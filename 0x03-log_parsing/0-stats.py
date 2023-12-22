@@ -11,19 +11,23 @@ if __name__ == '__main__':
     file_sizes = []
     status_codes = []
     count = 0
+    p_codes = [200, 301, 400, 401, 403, 404, 405, 500]
 
     def processline(line, file_sizes, status_codes):
         ''' function to process line to retrieve data '''
         strip_line = line.strip()
         parsed_line = strip_line.split(' ')
-        file_size = int(parsed_line[-1])
-        status_code = int(parsed_line[-2])
+        if len(parsed_line) > 1:
+            file_size = int(parsed_line[-1])
+            status_code = int(parsed_line[-2])
 
         # append file_size to file_sizes
         file_sizes.append(file_size)
 
-        # append status_code to status_codes
-        status_codes.append(status_code)
+        # check if status code is in p_code before appending
+        if status_code in p_codes:
+            # append status_code to status_codes
+            status_codes.append(status_code)
 
     def print_metrics(file_sizes, status_codes):
         ''' function to calculate metrics and print them'''
