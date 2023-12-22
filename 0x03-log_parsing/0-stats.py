@@ -17,17 +17,20 @@ if __name__ == '__main__':
         ''' function to process line to retrieve data '''
         strip_line = line.strip()
         parsed_line = strip_line.split(' ')
-        if len(parsed_line) > 1:
-            file_size = int(parsed_line[-1])
-            status_code = int(parsed_line[-2])
+        try:
+            if len(parsed_line) > 1:
+                file_size = int(parsed_line[-1])
+                status_code = int(parsed_line[-2])
 
-        # append file_size to file_sizes
-        file_sizes.append(file_size)
+                # append file_size to file_sizes
+                file_sizes.append(file_size)
 
-        # check if status code is in p_code before appending
-        if status_code in p_codes:
-            # append status_code to status_codes
-            status_codes.append(status_code)
+                # check if status code is in p_code before appending
+                if status_code in p_codes:
+                    # append status_code to status_codes
+                    status_codes.append(status_code)
+        except ValueError:
+            pass
 
     def print_metrics(file_sizes, status_codes):
         ''' function to calculate metrics and print them'''
